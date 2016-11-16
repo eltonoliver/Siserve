@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "205341641660",
+    "firebase_url": "https://siserve-914c7.firebaseio.com",
+    "project_id": "siserve-914c7",
+    "storage_bucket": "siserve-914c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205341641660:android:40ddcd66e1e2eece",
+        "android_client_info": {
+          "package_name": "com.app.siserve.siserve"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "205341641660-l5f0uo797i058s7e7fo0pa8kl0leb1lo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.siserve.siserve",
+            "certificate_hash": "7A0C77937AF41C7CE9BF8283BB0E0E9D6CAE3387"
+          }
+        },
+        {
+          "client_id": "205341641660-gnjic6iateqb409rp8j0lafkufcefoo6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgyphtfR7IxXE_IPARlrthsGw2zlRrcaU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "205341641660-gnjic6iateqb409rp8j0lafkufcefoo6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

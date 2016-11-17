@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,10 +45,30 @@ public class LoginActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
 
+    //Dados formulario
+    private AutoCompleteTextView email;
+    private Button btnLogin;
+    private EditText codEmpresa;
+    private EditText senha;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        email       = (AutoCompleteTextView)findViewById(R.id.email);
+        btnLogin    = (Button)findViewById(R.id.email_sign_in_button);
+        senha       = (EditText)findViewById(R.id.password);
+        codEmpresa  = (EditText)findViewById(R.id.codigoEmpresaID);
+
+        btnLogin.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("email", email.getText().toString() );
+            }
+        });
 
     }
 

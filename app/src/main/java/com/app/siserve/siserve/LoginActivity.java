@@ -29,14 +29,35 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.appdatasearch.GetRecentContextCall;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 
 public class LoginActivity extends AppCompatActivity {
-
 
 
     // UI references.
@@ -46,31 +67,84 @@ public class LoginActivity extends AppCompatActivity {
     private View mLoginFormView;
 
     //Dados formulario
-    private AutoCompleteTextView email;
+    private AutoCompleteTextView emailT;
     private Button btnLogin;
-    private EditText codEmpresa;
-    private EditText senha;
+    private EditText codEmpresaT;
+    private EditText senhaT;
 
+    private EditText editTextUsername;
+    private EditText editTextEmail;
+    private EditText editTextPassword;
 
+    public static final String EMAIL = "email";
+    public static final String SENHA = "senha";
+    public static final String COD_EMPRESA = "codEmpresa";
+    private static final String REGISTER_URL = "http://pronorteweb.com.br/webservice8be2dc0905a239101a41debb8ebe552a/rest/api.php?rquest=efetuaLogin";
+
+    final String URL_BASE = "http://pronorteweb.com.br/webservice8be2dc0905a239101a41debb8ebe552a/rest/api.php?rquest=efetuaLogin";
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        email       = (AutoCompleteTextView)findViewById(R.id.email);
-        btnLogin    = (Button)findViewById(R.id.email_sign_in_button);
-        senha       = (EditText)findViewById(R.id.password);
-        codEmpresa  = (EditText)findViewById(R.id.codigoEmpresaID);
+        emailT = (AutoCompleteTextView) findViewById(R.id.email);
+        btnLogin = (Button) findViewById(R.id.email_sign_in_button);
+        senhaT = (EditText) findViewById(R.id.password);
+        codEmpresaT = (EditText) findViewById(R.id.codigoEmpresaID);
+
 
         btnLogin.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("email", email.getText().toString() );
+
+                registerUser();
+
             }
         });
 
+
     }
+
+    private void registerUser(){
+        final String email          =  emailT.getText().toString().trim();
+        final String senha          =  senhaT.getText().toString().trim();
+        final String codEmpresa     =  codEmpresaT.getText().toString().trim();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(LoginActivity.this,response,Toast.LENGTH_LONG).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(LoginActivity.this,error.toString(),Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put(EMAIL,email);
+                params.put(SENHA,senha);
+                params.put(COD_EMPRESA, codEmpresa);
+                return params;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
 
 
 }

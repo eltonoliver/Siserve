@@ -3,8 +3,10 @@ package com.app.siserve.siserve;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +42,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.siserve.siserve.util.SettingsHelper;
 import com.google.android.gms.appdatasearch.GetRecentContextCall;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -90,23 +93,30 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        /*Intent t = new Intent(getApplicationContext(),MainActivity.class);
-        startActivity(t);
-        */
+
+
         emailT = (AutoCompleteTextView) findViewById(R.id.email);
         btnLogin = (Button) findViewById(R.id.email_sign_in_button);
         senhaT = (EditText) findViewById(R.id.password);
         codEmpresaT = (EditText) findViewById(R.id.codigoEmpresaID);
 
+        SettingsHelper logado = new SettingsHelper();
 
-        btnLogin.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        /*Verifica se o usuário ja logou antes no app*/
+        if(logado.usuarioLogado(LoginActivity.this)) {
 
-                    login();
+            redireciona();
 
-            }
-        });
+        }
+                btnLogin.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                            login();
+
+
+                    }
+                });
 
 
     }
@@ -115,39 +125,68 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        final String email = emailT.getText().toString().trim();
-        final String senha = senhaT.getText().toString().trim();
-        final String codEmpresa = codEmpresaT.getText().toString().trim();
+            final String email = emailT.getText().toString().trim();
+            final String senha = senhaT.getText().toString().trim();
+            final String codEmpresa = codEmpresaT.getText().toString().trim();
 
-        if (email.equals("") || senha.equals("") || codEmpresa.equals("")) {
+            if (email.equals("") || senha.equals("") || codEmpresa.equals("")) {
 
-            Toast.makeText(getApplicationContext(), "Todos os campos são obrigatórios", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Todos os campos são obrigatórios", Toast.LENGTH_LONG).show();
 
-        } else {
-            JsonObjectRequest req = new JsonObjectRequest(URL + "&email=" + email + "&senha=" + senha + "&codEmpresa=" + codEmpresa, null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
+            } else {
+                JsonObjectRequest req = new JsonObjectRequest(URL + "&email=" + email + "&senha=" + senha + "&codEmpresa=" + codEmpresa, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                        /*
+                                            Parse JSON
 
-                                Toast.makeText(LoginActivity.this, response.toString(4), Toast.LENGTH_LONG).show();
-                            } catch (JSONException e) {
+                                         */
+                                    String cod_usuario_cli = response.getString("cod_usuario_cli");
+                                    String cod_usuario = response.getString("cod_usuario");
+                                    String cod_empresa = response.getString("cod_empresa");
+                                    String nome = response.getString("nome");
+                                    String email = response.getString("email");
+                                    String codvend = response.getString("codvend");
 
-                                e.printStackTrace();
+                                    SettingsHelper helper = new SettingsHelper();
+                                    helper.setUserLogin(LoginActivity.this, cod_usuario_cli, cod_usuario, cod_empresa, nome, email, codvend);
+
+
+                                    // Log.i("LOGADO",""+helper.usuarioLogado(LoginActivity.this));
+
+
+                                   // Toast.makeText(LoginActivity.this, response.toString(4), Toast.LENGTH_LONG).show();
+                                   // Toast.makeText(LoginActivity.this, cod_usuario_cli, Toast.LENGTH_LONG).show();
+
+                                    redireciona();
+
+                                } catch (JSONException e) {
+
+                                    e.printStackTrace();
+                                }
                             }
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
 
-                    Toast.makeText(LoginActivity.this, "Dados inválidos, verifique seus dados com o Administrador!", Toast.LENGTH_LONG).show();
-                }
-            });
+                        Toast.makeText(LoginActivity.this, "Dados inválidos, verifique seus dados com o Administrador!", Toast.LENGTH_LONG).show();
+                    }
+                });
 
-            // add the request object to the queue to be executed
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(req);
-        }
+                // add the request object to the queue to be executed
+                RequestQueue requestQueue = Volley.newRequestQueue(this);
+                requestQueue.add(req);
+            }
+
     }
+
+    public void redireciona(){
+        Intent t = new Intent(LoginActivity.this,MainActivity.class);
+        startActivity(t);
+    }
+
+
 }
 

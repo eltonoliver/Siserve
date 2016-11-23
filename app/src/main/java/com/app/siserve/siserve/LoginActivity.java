@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String EMAIL = "email";
     public static final String SENHA = "senha";
     public static final String COD_EMPRESA = "codEmpresa";
-    private static final String REGISTER_URL = "http://pronorteweb.com.br/webservice8be2dc0905a239101a41debb8ebe552a/rest/api.php?rquest=efetuaLogin";
+    private static final String URL = "http://pronorteweb.com.br/webservice8be2dc0905a239101a41debb8ebe552a/rest/api.php?rquest=efetuaLogin";
 
 
     private GoogleApiClient client;
@@ -103,11 +103,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
-
-                    registerUser();
-
-
+                    login();
 
             }
         });
@@ -115,46 +111,43 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void registerUser() {
+    private void login() {
+
+
+
         final String email = emailT.getText().toString().trim();
         final String senha = senhaT.getText().toString().trim();
         final String codEmpresa = codEmpresaT.getText().toString().trim();
+
         if (email.equals("") || senha.equals("") || codEmpresa.equals("")) {
 
             Toast.makeText(getApplicationContext(), "Todos os campos são obrigatórios", Toast.LENGTH_LONG).show();
 
         } else {
-
-
-
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_URL,
-                    new Response.Listener<String>() {
+            JsonObjectRequest req = new JsonObjectRequest(URL + "&email=" + email + "&senha=" + senha + "&codEmpresa=" + codEmpresa, null,
+                    new Response.Listener<JSONObject>() {
                         @Override
-                        public void onResponse(String response) {
-                            Toast.makeText(LoginActivity.this, response, Toast.LENGTH_LONG).show();
+                        public void onResponse(JSONObject response) {
+                            try {
+
+                                Toast.makeText(LoginActivity.this, response.toString(4), Toast.LENGTH_LONG).show();
+                            } catch (JSONException e) {
+
+                                e.printStackTrace();
+                            }
                         }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(LoginActivity.this,"Dados inválidos, consulte seus dados com o administrador!", Toast.LENGTH_LONG).show();
-                        }
-                    }) {
+                    }, new Response.ErrorListener() {
                 @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put(EMAIL, email);
-                    params.put(SENHA, senha);
-                    params.put(COD_EMPRESA, codEmpresa);
-                    return params;
+                public void onErrorResponse(VolleyError error) {
+
+                    Toast.makeText(LoginActivity.this, "Dados inválidos, verifique seus dados com o Administrador!", Toast.LENGTH_LONG).show();
                 }
-            };
+            });
 
+            // add the request object to the queue to be executed
             RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(stringRequest);
+            requestQueue.add(req);
         }
-
     }
-
 }
 

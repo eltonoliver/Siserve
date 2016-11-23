@@ -82,12 +82,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String COD_EMPRESA = "codEmpresa";
     private static final String REGISTER_URL = "http://pronorteweb.com.br/webservice8be2dc0905a239101a41debb8ebe552a/rest/api.php?rquest=efetuaLogin";
 
-    final String URL_BASE = "http://pronorteweb.com.br/webservice8be2dc0905a239101a41debb8ebe552a/rest/api.php?rquest=efetuaLogin";
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
     private GoogleApiClient client;
 
     @Override
@@ -95,9 +90,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Intent t = new Intent(getApplicationContext(),MainActivity.class);
+        /*Intent t = new Intent(getApplicationContext(),MainActivity.class);
         startActivity(t);
-
+        */
         emailT = (AutoCompleteTextView) findViewById(R.id.email);
         btnLogin = (Button) findViewById(R.id.email_sign_in_button);
         senhaT = (EditText) findViewById(R.id.password);
@@ -108,7 +103,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                registerUser();
+
+
+                    registerUser();
+
+
 
             }
         });
@@ -116,40 +115,46 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void registerUser(){
-        final String email          =  emailT.getText().toString().trim();
-        final String senha          =  senhaT.getText().toString().trim();
-        final String codEmpresa     =  codEmpresaT.getText().toString().trim();
+    private void registerUser() {
+        final String email = emailT.getText().toString().trim();
+        final String senha = senhaT.getText().toString().trim();
+        final String codEmpresa = codEmpresaT.getText().toString().trim();
+        if (email.equals("") || senha.equals("") || codEmpresa.equals("")) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(LoginActivity.this,response,Toast.LENGTH_LONG).show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(LoginActivity.this,error.toString(),Toast.LENGTH_LONG).show();
-                    }
-                }){
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put(EMAIL,email);
-                params.put(SENHA,senha);
-                params.put(COD_EMPRESA, codEmpresa);
-                return params;
-            }
+            Toast.makeText(getApplicationContext(), "Todos os campos são obrigatórios", Toast.LENGTH_LONG).show();
 
-        };
+        } else {
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
+
+
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Toast.makeText(LoginActivity.this, response, Toast.LENGTH_LONG).show();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(LoginActivity.this,"Dados inválidos, consulte seus dados com o administrador!", Toast.LENGTH_LONG).show();
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put(EMAIL, email);
+                    params.put(SENHA, senha);
+                    params.put(COD_EMPRESA, codEmpresa);
+                    return params;
+                }
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(stringRequest);
+        }
+
     }
-
-
 
 }
 

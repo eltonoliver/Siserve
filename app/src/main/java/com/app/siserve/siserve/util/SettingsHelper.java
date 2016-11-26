@@ -37,4 +37,28 @@ public class SettingsHelper {
         }
 
     }
+
+    public String listaNome(Context context) {
+        SharedPreferences settings = context.getSharedPreferences(SETTINGS, 0);
+        String nome = null;
+        if (settings.contains("nome")) {
+
+            nome = settings.getString("nome", "");
+
+        }
+
+        return nome;
+    }
+
+    public String listaEmail(Context context) {
+        SharedPreferences settings = context.getSharedPreferences(SETTINGS, 0);
+        String email = null;
+        if (settings.contains("email")) {
+
+            email = settings.getString("email", "");
+
+        }
+
+        return email;
+    }
 }

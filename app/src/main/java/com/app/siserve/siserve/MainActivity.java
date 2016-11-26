@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.app.siserve.siserve.framents.ClientesFragment;
 import com.app.siserve.siserve.framents.HomeFragment;
 import com.app.siserve.siserve.util.SettingsHelper;
 
@@ -132,12 +133,12 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_clientes) {
             // Handle the camera action
 
-           HomeFragment home = new HomeFragment();
+           ClientesFragment clientesFragment = new ClientesFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(
                                                  R.id.content_main_for_fragment,
-                                                 home,
-                                                 home.getTag()
+                                                 clientesFragment,
+                                                 clientesFragment.getTag()
                                               ).commit();
         } else if (id == R.id.nav_gallery) {
             SettingsHelper helper = new SettingsHelper();

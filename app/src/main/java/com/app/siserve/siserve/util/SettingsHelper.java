@@ -38,16 +38,20 @@ public class SettingsHelper {
 
     }
 
-    public String listaNome(Context context) {
+    public String[] listaNome(Context context) {
         SharedPreferences settings = context.getSharedPreferences(SETTINGS, 0);
         String nome = null;
+        String[] splited = null;
         if (settings.contains("nome")) {
 
             nome = settings.getString("nome", "");
 
+
+           splited = nome.split("\\s+"); /*split nome por espaço*/
+
         }
 
-        return nome;
+        return splited;
     }
 
     public String listaEmail(Context context) {

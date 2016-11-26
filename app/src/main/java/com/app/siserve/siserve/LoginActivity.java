@@ -108,15 +108,15 @@ public class LoginActivity extends AppCompatActivity {
             redireciona();
 
         }
-                btnLogin.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+        btnLogin.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-                            login();
+                login();
 
 
-                    }
-                });
+            }
+        });
 
 
     }
@@ -125,60 +125,60 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-            final String email = emailT.getText().toString().trim();
-            final String senha = senhaT.getText().toString().trim();
-            final String codEmpresa = codEmpresaT.getText().toString().trim();
+        final String email = emailT.getText().toString().trim();
+        final String senha = senhaT.getText().toString().trim();
+        final String codEmpresa = codEmpresaT.getText().toString().trim();
 
-            if (email.equals("") || senha.equals("") || codEmpresa.equals("")) {
+        if (email.equals("") || senha.equals("") || codEmpresa.equals("")) {
 
-                Toast.makeText(getApplicationContext(), "Todos os campos são obrigatórios", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Todos os campos são obrigatórios", Toast.LENGTH_LONG).show();
 
-            } else {
-                JsonObjectRequest req = new JsonObjectRequest(URL + "&email=" + email + "&senha=" + senha + "&codEmpresa=" + codEmpresa, null,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
+        } else {
+            JsonObjectRequest req = new JsonObjectRequest(URL + "&email=" + email + "&senha=" + senha + "&codEmpresa=" + codEmpresa, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
                                         /*
                                             Parse JSON
 
                                          */
-                                    String cod_usuario_cli = response.getString("cod_usuario_cli");
-                                    String cod_usuario = response.getString("cod_usuario");
-                                    String cod_empresa = response.getString("cod_empresa");
-                                    String nome = response.getString("nome");
-                                    String email = response.getString("email");
-                                    String codvend = response.getString("codvend");
+                                String cod_usuario_cli = response.getString("cod_usuario_cli");
+                                String cod_usuario = response.getString("cod_usuario");
+                                String cod_empresa = response.getString("cod_empresa");
+                                String nome = response.getString("nome");
+                                String email = response.getString("email");
+                                String codvend = response.getString("codvend");
 
-                                    SettingsHelper helper = new SettingsHelper();
-                                    helper.setUserLogin(LoginActivity.this, cod_usuario_cli, cod_usuario, cod_empresa, nome, email, codvend);
-
-
-                                    // Log.i("LOGADO",""+helper.usuarioLogado(LoginActivity.this));
+                                SettingsHelper helper = new SettingsHelper();
+                                helper.setUserLogin(LoginActivity.this, cod_usuario_cli, cod_usuario, cod_empresa, nome, email, codvend);
 
 
-                                   // Toast.makeText(LoginActivity.this, response.toString(4), Toast.LENGTH_LONG).show();
-                                   // Toast.makeText(LoginActivity.this, cod_usuario_cli, Toast.LENGTH_LONG).show();
+                                // Log.i("LOGADO",""+helper.usuarioLogado(LoginActivity.this));
 
-                                    redireciona();
 
-                                } catch (JSONException e) {
+                                // Toast.makeText(LoginActivity.this, response.toString(4), Toast.LENGTH_LONG).show();
+                                // Toast.makeText(LoginActivity.this, cod_usuario_cli, Toast.LENGTH_LONG).show();
 
-                                    e.printStackTrace();
-                                }
+                                redireciona();
+
+                            } catch (JSONException e) {
+
+                                e.printStackTrace();
                             }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
 
-                        Toast.makeText(LoginActivity.this, "Dados inválidos, verifique seus dados com o Administrador!", Toast.LENGTH_LONG).show();
-                    }
-                });
+                    Toast.makeText(LoginActivity.this, "Dados inválidos, verifique seus dados com o Administrador!", Toast.LENGTH_LONG).show();
+                }
+            });
 
-                // add the request object to the queue to be executed
-                RequestQueue requestQueue = Volley.newRequestQueue(this);
-                requestQueue.add(req);
-            }
+            // add the request object to the queue to be executed
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(req);
+        }
 
     }
 

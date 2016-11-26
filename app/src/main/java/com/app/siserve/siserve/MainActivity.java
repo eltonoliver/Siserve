@@ -1,5 +1,6 @@
 package com.app.siserve.siserve;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -35,10 +36,12 @@ public class MainActivity extends AppCompatActivity
 
         /*Nome do usuário logado*/
 
-
         SettingsHelper helper = new SettingsHelper();
         String[] nomeusuarioLogado = helper.listaNome(MainActivity.this);
         String   listaEmail        = helper.listaEmail(MainActivity.this);
+        if("".equals(nomeusuarioLogado) && "".equals(listaEmail)){
+            redirecionaLogin();
+        }
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView =  navigationView.getHeaderView(0);
@@ -140,5 +143,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void redirecionaLogin(){
+        Intent t = new Intent(MainActivity.this,LoginActivity.class);
+        startActivity(t);
     }
 }

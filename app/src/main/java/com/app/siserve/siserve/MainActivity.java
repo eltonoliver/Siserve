@@ -38,11 +38,17 @@ public class MainActivity extends AppCompatActivity
 
         SettingsHelper helper = new SettingsHelper();
         String[] nomeusuarioLogado = helper.listaNome(MainActivity.this);
+        String   listaEmail        = helper.listaEmail(MainActivity.this);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView =  navigationView.getHeaderView(0);
         TextView nav_user = (TextView)hView.findViewById(R.id.nomeIDHOME);
         nav_user.setText(nomeusuarioLogado[0]+" "+nomeusuarioLogado[1]);
+
+        /*Email*/
+
+        TextView email = (TextView)hView.findViewById(R.id.emailID);
+        email.setText(listaEmail);
 
 
 

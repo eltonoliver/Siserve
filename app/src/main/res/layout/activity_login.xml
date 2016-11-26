@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.app.siserve.siserve.LoginActivity"
-    android:background="@drawable/fundo2">
+    android:background="@drawable/fundo_novo2">
 
     <!-- Login progress -->
     <ProgressBar

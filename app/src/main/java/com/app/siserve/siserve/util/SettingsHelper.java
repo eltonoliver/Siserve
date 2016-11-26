@@ -65,4 +65,12 @@ public class SettingsHelper {
 
         return email;
     }
+
+    public void destroySharedPreference(Context context){
+
+        SharedPreferences settings = context.getSharedPreferences(SETTINGS, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.clear();
+        editor.commit();
+    }
 }

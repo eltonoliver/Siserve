@@ -32,7 +32,18 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /*Iniciar com o Fragmento Home*/
 
+        HomeFragment home = new HomeFragment();
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(
+                R.id.content_main_for_fragment,
+                home,
+                home.getTag()
+        ).commit();
+
+
+        /*Fragmento Home*/
 
         /*Nome do usuário logado*/
 
@@ -118,7 +129,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_clientes) {
             // Handle the camera action
 
            HomeFragment home = new HomeFragment();
@@ -129,8 +140,11 @@ public class MainActivity extends AppCompatActivity
                                                  home.getTag()
                                               ).commit();
         } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
+            SettingsHelper helper = new SettingsHelper();
+            helper.destroySharedPreference(MainActivity.this);
+            Toast.makeText(MainActivity.this, "Até mais!", Toast.LENGTH_SHORT).show();
+            redirecionaLogin();
+        }/* else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
 
@@ -138,7 +152,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

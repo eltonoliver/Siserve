@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
     }
 
     @Override
@@ -142,6 +145,8 @@ public class MainActivity extends AppCompatActivity
                                                  clientesFragment,
                                                  clientesFragment.getTag()
                                               ).commit();
+
+
         } else if (id == R.id.nav_gallery) {
             SettingsHelper helper = new SettingsHelper();
             helper.destroySharedPreference(MainActivity.this);

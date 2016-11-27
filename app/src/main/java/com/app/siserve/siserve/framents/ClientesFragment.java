@@ -6,7 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.app.siserve.siserve.MainActivity;
 import com.app.siserve.siserve.R;
 
 /**
@@ -14,6 +18,9 @@ import com.app.siserve.siserve.R;
  * Use the {@link ClientesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+
+
 public class ClientesFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,13 +62,38 @@ public class ClientesFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_clientes, container, false);
+        View view = inflater.inflate(R.layout.fragment_clientes, container, false);
+
+        /*Pesquisar Clientes****************************************************/
+        Button btnPesquisar;
+        final EditText nomeCliente;
+        EditText cpfCliente;
+        EditText codigoCliente;
+
+        btnPesquisar = (Button)view.findViewById(R.id.btnPesquisar);
+        nomeCliente  = (EditText)view.findViewById(R.id.nomeClienteID);
+        cpfCliente   = (EditText)view.findViewById(R.id.cpfID);
+        codigoCliente= (EditText)view.findViewById(R.id.codigoID);
+
+        btnPesquisar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "Clicou "+nomeCliente.getText().toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+
+        return view;
+        
     }
 
 }

@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         /*Iniciar com o Fragmento Home*/
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarID);
+        setSupportActionBar(toolbar);
+
 
         HomeFragment home = new HomeFragment();
         FragmentManager manager = getSupportFragmentManager();
@@ -67,8 +70,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -132,8 +134,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_clientes) {
             // Handle the camera action
-
-           ClientesFragment clientesFragment = new ClientesFragment();
+            getSupportActionBar().setTitle("Pesquisar Clientes");
+            ClientesFragment clientesFragment = new ClientesFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(
                                                  R.id.content_main_for_fragment,

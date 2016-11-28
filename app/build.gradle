@@ -32,8 +32,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':volley')
-    compile 'com.android.support:design:25.0.0'
     // compile 'com.firebase:firebase-client-android:2.5.2.+'
+    compile 'com.android.support:design:25.0.0'
     compile 'com.android.support:design:25.0.0'
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.google.firebase:firebase-core:9.8.0'

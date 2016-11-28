@@ -1,8 +1,11 @@
 package com.app.siserve.siserve.framents;
 
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +19,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.app.siserve.siserve.LoginActivity;
-import com.app.siserve.siserve.MainActivity;
 import com.app.siserve.siserve.R;
 import com.app.siserve.siserve.util.SettingsHelper;
 
@@ -149,7 +150,45 @@ public class ClientesFragment extends Fragment {
                                 mensagem.setCancelable(false);
                                 mensagem.setNegativeButton("Pesquisar Novamente",null);
                                 mensagem.setPositiveButton("Sim",null);
+                                /*Envia dados para Activity*/
+
+                                mensagem.setPositiveButton("Sim",new DialogInterface.OnClickListener(){
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog,int whitch){
+
+                                        Toast.makeText(getContext(), "Pressionado Botão Sim", Toast.LENGTH_SHORT).show();
+
+
+                                        DadosClienteFragment dadosClientesFragment = new DadosClienteFragment();
+
+                                        /*Passando dados do cliente*/
+                                        Bundle bundle = new Bundle();
+                                        String myMessage = "Stackoverflow is cool!";
+                                        bundle.putString("message", myMessage );
+                                        /*Fim passando dados do cliente*/
+
+                                        dadosClientesFragment.setArguments(bundle);
+
+                                        FragmentManager manager = getFragmentManager();
+                                        manager.beginTransaction().replace(
+                                                R.id.content_main_for_fragment,
+                                                dadosClientesFragment,
+                                                dadosClientesFragment.getTag()
+                                        ).commit();
+
+
+
+                                    }
+
+
+                                } );
+
+                                /*Fim envia dados para Activity*/
+                                mensagem.create();
                                 mensagem.show();
+
+                           // redireciona();
 
 
                         }
@@ -167,6 +206,8 @@ public class ClientesFragment extends Fragment {
         }
 
     }
+
+
 
 
 

@@ -166,9 +166,6 @@ public class ClientesFragment extends Fragment {
                                     @Override
                                     public void onClick(DialogInterface dialog,int whitch){
 
-                                        Toast.makeText(getContext(), "Pressionado Botão Sim", Toast.LENGTH_SHORT).show();
-
-
                                         DadosClienteFragment dadosClientesFragment = new DadosClienteFragment();
 
                                         /*Passando dados do cliente*/

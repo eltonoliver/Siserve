@@ -9,9 +9,11 @@ import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.siserve.siserve.R;
+import com.app.siserve.siserve.adapter.Cliente;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,12 +69,50 @@ public class DadosClienteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_dados_cliente, container, false);
         //Recebendo Dados do Cliente
-        Bundle bundle = this.getArguments();
-        String myValue = bundle.getString("nomecli");
+        final TextView nome;
+        final TextView cgccpf;
+        final TextView tpPessoa;
+        final TextView endereco;
+        final TextView telefone;
+        final TextView celular;
+        final TextView email;
+        final TextView fantasia;
 
-        Toast.makeText(getContext(), myValue, Toast.LENGTH_SHORT).show();
-        return inflater.inflate(R.layout.fragment_dados_cliente, container, false);
+
+        Bundle bundle = this.getArguments();
+        final Cliente cliente = new Cliente();
+        cliente.setNomeCliente(bundle.getString("nomecli"));
+        cliente.setCpf(bundle.getString("cgccpf"));
+        cliente.setTipoCli(bundle.getString("tpPessoa"));
+        cliente.setEndereco(bundle.getString("endereco"));
+        cliente.setTelefone(bundle.getString("telefone"));
+        cliente.setCelular(bundle.getString("celular"));
+        cliente.setEmail(bundle.getString("email"));
+        cliente.setNomeFantasia(bundle.getString("fantasia"));
+
+        nome     = (TextView) view.findViewById(R.id.nomeIDVIEW);
+        cgccpf   = (TextView) view.findViewById(R.id.cpfIDVIEW);
+        tpPessoa = (TextView)view.findViewById(R.id.tipoIDVIEW);
+        endereco = (TextView)view.findViewById(R.id.enderecoIDVIEW);
+        telefone = (TextView)view.findViewById(R.id.telefoneIDVIEW);
+        celular  = (TextView)view.findViewById(R.id.celularIDVIEW);
+        email    = (TextView)view.findViewById(R.id.emailIDVIEW);
+        fantasia = (TextView)view.findViewById(R.id.fantasiaIDVIEW);
+
+        nome.setText(cliente.getNomeCliente());
+        cgccpf.setText((cliente.getCpf() == null)?"Dados não cadastrados":cliente.getCpf());
+        tpPessoa.setText((cliente.getTipoCli()==null)?"Dados não cadastrados":cliente.getTipoCli());
+        endereco.setText((cliente.getEndereco()==null)?"Dados não cadastrados":cliente.getEndereco());
+        telefone.setText(cliente.getTelefone());
+        celular.setText(cliente.getCelular());
+        email.setText(cliente.getEmail());
+        fantasia.setText(cliente.getNomeFantasia());
+
+
+
+        return view;
     }
 
 }

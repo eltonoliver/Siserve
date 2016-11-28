@@ -85,8 +85,9 @@ public class ClientesFragment extends Fragment {
         /*Pesquisar Clientes****************************************************/
         Button btnPesquisar;
         final EditText nomeCliente;
-        EditText cpfCliente;
-        EditText codigoCliente;
+        final EditText cpfCliente;
+        final EditText codigoCliente;
+
 
         btnPesquisar = (Button)view.findViewById(R.id.btnPesquisar);
         nomeCliente  = (EditText)view.findViewById(R.id.nomeClienteID);
@@ -96,9 +97,19 @@ public class ClientesFragment extends Fragment {
         btnPesquisar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "Clicou "+nomeCliente.getText().toString(), Toast.LENGTH_LONG).show();
+                SettingsHelper helper = new SettingsHelper();
 
-                    pesquisaCliente("E","896","12","1");
+                final String empresa = helper.listaEmpresa(getContext());
+                final String nome = nomeCliente.getText().toString().trim();
+                final String cpf  = cpfCliente.getText().toString().trim();
+                final String codigocli = codigoCliente.getText().toString().trim();
+
+
+                if("".equals(nome) && "".equals(empresa) && "".equals(cpf) && "".equals(codigocli) ){
+                    Toast.makeText(getContext(), "Todos os dados são obrigatórios para pesquisa!", Toast.LENGTH_LONG).show();
+                }else {
+                    pesquisaCliente(nome, cpf, codigocli, empresa);
+                }
             }
         });
 
@@ -138,7 +149,7 @@ public class ClientesFragment extends Fragment {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    Toast.makeText(getContext(), "Dados inválidos, verifique seus dados com o Administrador!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Cliente não encontrado, verifique os dados inseridos!", Toast.LENGTH_LONG).show();
                 }
             });
 

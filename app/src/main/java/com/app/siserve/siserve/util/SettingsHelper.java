@@ -66,6 +66,18 @@ public class SettingsHelper {
         return email;
     }
 
+    public String listaEmpresa(Context context) {
+        SharedPreferences settings = context.getSharedPreferences(SETTINGS, 0);
+        String codEmpresa = null;
+        if (settings.contains("cod_empresa")) {
+
+            codEmpresa = settings.getString("cod_empresa", "");
+
+        }
+
+        return codEmpresa;
+    }
+
     public void destroySharedPreference(Context context){
 
         SharedPreferences settings = context.getSharedPreferences(SETTINGS, 0);

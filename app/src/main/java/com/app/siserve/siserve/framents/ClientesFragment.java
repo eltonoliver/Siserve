@@ -75,9 +75,6 @@ public class ClientesFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
-
     }
 
     @Override
@@ -107,7 +104,6 @@ public class ClientesFragment extends Fragment {
                 final String cpf  = cpfCliente.getText().toString().trim();
                 final String codigocli = codigoCliente.getText().toString().trim();
 
-
                 if("".equals(nome) && "".equals(empresa) && "".equals(cpf) && "".equals(codigocli) ){
                     Toast.makeText(getContext(), "Todos os dados são obrigatórios para pesquisa!", Toast.LENGTH_LONG).show();
                 }else {
@@ -124,9 +120,7 @@ public class ClientesFragment extends Fragment {
 
 
     private void pesquisaCliente( String nomeCliente, String cpfCliente, String codCliente,String codEmpresa) {
-
-
-
+        
         if (nomeCliente.equals("") || cpfCliente.equals("") || codCliente.equals("")) {
 
             Toast.makeText(getContext(), "Todos os campos são obrigatórios", Toast.LENGTH_LONG).show();

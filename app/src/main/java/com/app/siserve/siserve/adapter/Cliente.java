@@ -17,7 +17,7 @@ public class Cliente {
     }
 
     public void setNomeCliente(String nomeCliente) {
-        this.nomeCliente = nomeCliente;
+        this.nomeCliente = (nomeCliente == "null"|| "".equals(nomeCliente))?"Dados não cadastrados":nomeCliente;
     }
 
     public String getCpf() {
@@ -25,7 +25,7 @@ public class Cliente {
     }
 
     public void setCpf(String cpf) {
-        this.cpf = cpf;
+        this.cpf = (cpf == "null" || "".equals(cpf))?"Dados não cadastrados":cpf;
     }
 
     public String getTipoCli() {
@@ -33,7 +33,7 @@ public class Cliente {
     }
 
     public void setTipoCli(String tipoCli) {
-        this.tipoCli = tipoCli;
+        this.tipoCli = (tipoCli == "null" || "".equals(tipoCli))?"Dados não cadastrados":(tipoCli == "J")?"Jurídica":"Física";
     }
 
     public String getEndereco() {
@@ -41,7 +41,7 @@ public class Cliente {
     }
 
     public void setEndereco(String endereco) {
-        this.endereco = endereco;
+        this.endereco = (endereco == "null" || "".equals(endereco))?"Dados não cadastrados":endereco;
     }
 
     public String getTelefone() {
@@ -49,7 +49,7 @@ public class Cliente {
     }
 
     public void setTelefone(String telefone) {
-        this.telefone = telefone;
+        this.telefone = (telefone == "null" || "".equals(telefone))?"Dados não cadastrados":telefone;
     }
 
     public String getCelular() {
@@ -57,7 +57,7 @@ public class Cliente {
     }
 
     public void setCelular(String celular) {
-        this.celular = celular;
+        this.celular = (celular == "null" || "".equals(celular))?"Dados não cadastrados":celular;
     }
 
     public String getEmail() {
@@ -65,7 +65,7 @@ public class Cliente {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = (email == "null" || "".equals(email))?"Dados não cadastrados":email;
     }
 
     public String getNomeFantasia() {
@@ -73,7 +73,7 @@ public class Cliente {
     }
 
     public void setNomeFantasia(String nomeFantasia) {
-        this.nomeFantasia = nomeFantasia;
+        this.nomeFantasia = (nomeFantasia == "null" || "".equals(nomeFantasia))?"Dados não cadastrados":nomeFantasia;
     }
 
     private String celular;

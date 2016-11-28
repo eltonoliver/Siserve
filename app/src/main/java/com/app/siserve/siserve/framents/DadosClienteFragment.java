@@ -102,9 +102,9 @@ public class DadosClienteFragment extends Fragment {
         fantasia = (TextView)view.findViewById(R.id.fantasiaIDVIEW);
 
         nome.setText(cliente.getNomeCliente());
-        cgccpf.setText((cliente.getCpf() == null)?"Dados não cadastrados":cliente.getCpf());
-        tpPessoa.setText((cliente.getTipoCli()==null)?"Dados não cadastrados":cliente.getTipoCli());
-        endereco.setText((cliente.getEndereco()==null)?"Dados não cadastrados":cliente.getEndereco());
+        cgccpf.setText(cliente.getCpf());
+        tpPessoa.setText((cliente.getTipoCli()));
+        endereco.setText(cliente.getEndereco());
         telefone.setText(cliente.getTelefone());
         celular.setText(cliente.getCelular());
         email.setText(cliente.getEmail());

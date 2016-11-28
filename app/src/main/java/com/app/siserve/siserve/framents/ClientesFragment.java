@@ -3,6 +3,7 @@ package com.app.siserve.siserve.framents;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,10 +139,17 @@ public class ClientesFragment extends Fragment {
 
 
 
-                                String cod_usuario_cli = response.getString("codcli_auto");
+                                String nomeClienteJSON = response.getString("nomecli");
 
-                                Toast.makeText(getContext(), cod_usuario_cli , Toast.LENGTH_LONG).show();
-                                Toast.makeText(getContext(), "FUNCIONOU", Toast.LENGTH_LONG).show();
+
+                                AlertDialog.Builder mensagem = new AlertDialog.Builder(getContext());
+                                mensagem.setIcon(android.R.drawable.btn_star);
+                                mensagem.setTitle("Cliente Encontrado");
+                                mensagem.setMessage("O Cliente "+nomeClienteJSON+" foi encontrado, deseja visualizar seus dados completos?");
+                                mensagem.setCancelable(false);
+                                mensagem.setNegativeButton("Pesquisar Novamente",null);
+                                mensagem.setPositiveButton("Sim",null);
+                                mensagem.show();
 
 
                         }
@@ -159,5 +167,7 @@ public class ClientesFragment extends Fragment {
         }
 
     }
+
+
 
 }

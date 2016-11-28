@@ -10,8 +10,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.app.siserve.siserve.LoginActivity;
 import com.app.siserve.siserve.MainActivity;
 import com.app.siserve.siserve.R;
+import com.app.siserve.siserve.util.SettingsHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +36,7 @@ public class ClientesFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private static final String URL = "http://pronorteweb.com.br/webservice8be2dc0905a239101a41debb8ebe552a/rest/api.php?rquest=consultaClientes";
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -87,6 +97,8 @@ public class ClientesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "Clicou "+nomeCliente.getText().toString(), Toast.LENGTH_LONG).show();
+
+                    pesquisaCliente("E","896","12","1");
             }
         });
 
@@ -94,6 +106,47 @@ public class ClientesFragment extends Fragment {
 
         return view;
         
+    }
+
+
+    private void pesquisaCliente( String nomeCliente, String cpfCliente, String codCliente,String codEmpresa) {
+
+
+
+        if (nomeCliente.equals("") || cpfCliente.equals("") || codCliente.equals("")) {
+
+            Toast.makeText(getContext(), "Todos os campos são obrigatórios", Toast.LENGTH_LONG).show();
+
+        } else {
+
+
+            JsonObjectRequest req = new JsonObjectRequest(URL + "&nomeCli=" + nomeCliente + "&cpfCli=" + cpfCliente + "&codCli=" + codCliente+ "&codEmpresa="+codEmpresa, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) throws JSONException {
+
+
+
+                                String cod_usuario_cli = response.getString("codcli_auto");
+
+                                Toast.makeText(getContext(), cod_usuario_cli , Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "FUNCIONOU", Toast.LENGTH_LONG).show();
+
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    Toast.makeText(getContext(), "Dados inválidos, verifique seus dados com o Administrador!", Toast.LENGTH_LONG).show();
+                }
+            });
+
+            // add the request object to the queue to be executed
+            RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+            requestQueue.add(req);
+        }
+
     }
 
 }

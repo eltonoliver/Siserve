@@ -139,10 +139,10 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
-                                        /*
-                                            Parse JSON
+                                /*
+                                    Parse JSON
 
-                                         */
+                                 */
                                 String cod_usuario_cli = response.getString("cod_usuario_cli");
                                 String cod_usuario = response.getString("cod_usuario");
                                 String cod_empresa = response.getString("cod_empresa");

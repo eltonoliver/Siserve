@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.siserve.siserve.R;
+import com.app.siserve.siserve.adapter.Cliente;
 import com.app.siserve.siserve.util.SettingsHelper;
 
 import org.json.JSONException;
@@ -139,14 +140,22 @@ public class ClientesFragment extends Fragment {
                         public void onResponse(JSONObject response) throws JSONException {
 
 
+                                final Cliente cliente = new Cliente();
+                                cliente.setNomeCliente(response.getString("nomecli"));
+                                cliente.setCpf(response.getString("cgccpf"));
+                                cliente.setTipoCli(response.getString("tpPessoa"));
+                                cliente.setEndereco(response.getString("endereco"));
+                                cliente.setTelefone(response.getString("telefone"));
+                                cliente.setCelular(response.getString("celular"));
+                                cliente.setEmail(response.getString("email"));
+                                cliente.setNomeFantasia(response.getString("fantasia"));
 
-                                String nomeClienteJSON = response.getString("nomecli");
 
 
                                 AlertDialog.Builder mensagem = new AlertDialog.Builder(getContext());
                                 mensagem.setIcon(android.R.drawable.btn_star);
                                 mensagem.setTitle("Cliente Encontrado");
-                                mensagem.setMessage("O Cliente "+nomeClienteJSON+" foi encontrado, deseja visualizar seus dados completos?");
+                                mensagem.setMessage("O Cliente "+cliente.getNomeCliente()+" foi encontrado, deseja visualizar seus dados completos?");
                                 mensagem.setCancelable(false);
                                 mensagem.setNegativeButton("Pesquisar Novamente",null);
                                 mensagem.setPositiveButton("Sim",null);
@@ -164,8 +173,16 @@ public class ClientesFragment extends Fragment {
 
                                         /*Passando dados do cliente*/
                                         Bundle bundle = new Bundle();
-                                        String myMessage = "Stackoverflow is cool!";
-                                        bundle.putString("message", myMessage );
+
+                                        bundle.putString("nomecli", cliente.getNomeCliente() );
+                                        bundle.putString("cgccpf", cliente.getCpf() );
+                                        bundle.putString("tpPessoa", cliente.getTipoCli() );
+                                        bundle.putString("endereco", cliente.getEndereco() );
+                                        bundle.putString("telefone", cliente.getTelefone() );
+                                        bundle.putString("celular", cliente.getCelular() );
+                                        bundle.putString("email", cliente.getEmail() );
+                                        bundle.putString("fantasia", cliente.getNomeFantasia() );
+
                                         /*Fim passando dados do cliente*/
 
                                         dadosClientesFragment.setArguments(bundle);

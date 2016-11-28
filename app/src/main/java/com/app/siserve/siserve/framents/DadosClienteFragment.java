@@ -63,16 +63,13 @@ public class DadosClienteFragment extends Fragment {
     }
 
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //Recebendo Dados do Cliente
         Bundle bundle = this.getArguments();
-        String myValue = bundle.getString("message");
+        String myValue = bundle.getString("nomecli");
 
         Toast.makeText(getContext(), myValue, Toast.LENGTH_SHORT).show();
         return inflater.inflate(R.layout.fragment_dados_cliente, container, false);

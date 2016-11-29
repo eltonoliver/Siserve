@@ -121,11 +121,7 @@ public class ClientesFragment extends Fragment {
 
     private void pesquisaCliente( String nomeCliente, String cpfCliente, String codCliente,String codEmpresa) {
 
-        if (nomeCliente.equals("") || cpfCliente.equals("") || codCliente.equals("")) {
 
-            Toast.makeText(getContext(), "Todos os campos são obrigatórios", Toast.LENGTH_LONG).show();
-
-        } else {
 
 
             JsonObjectRequest req = new JsonObjectRequest(URL + "&nomeCli=" + nomeCliente + "&cpfCli=" + cpfCliente + "&codCli=" + codCliente+ "&codEmpresa="+codEmpresa, null,
@@ -219,4 +215,4 @@ public class ClientesFragment extends Fragment {
 
 
 
-}
+

@@ -125,38 +125,27 @@ public class ClientesFragment extends Fragment {
 
     private void pesquisaCliente( String nomeCliente, String cpfCliente, String codCliente,String codEmpresa) {
 
-
-
-
-           /* JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET,URL + "&nomeCli=" + nomeCliente + "&cpfCli=" + cpfCliente + "&codCli=" + codCliente+ "&codEmpresa="+codEmpresa, null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) throws JSONException {
-
-
-                                Log.i("OKKKKKKKKKKKKKKKKKKKK",""+response.toString());
-
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                    Toast.makeText(getContext(), "Cliente não encontrado, verifique os dados inseridos!", Toast.LENGTH_LONG).show();
-                    Log.i("Error",""+error.toString());
-                }
-            });
-
-
-            RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-            requestQueue.add(req);*/
-
                 JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,URL + "&nomeCli=" + nomeCliente + "&cpfCli=" + cpfCliente + "&codCli=" + codCliente+ "&codEmpresa="+codEmpresa,(String)null,
                         new Response.Listener<JSONArray>(){
 
 
                             @Override
                             public void onResponse(JSONArray response) throws JSONException {
-                                    Log.i("OKKKKK",""+response.toString());
+                                ListaClienteFragment lista = new ListaClienteFragment();
+
+                                Log.i("OKKKKK",""+response.toString(0));
+                                Bundle bundle = new Bundle();
+
+                                bundle.putString("lista", response.toString() );
+                                lista.setArguments(bundle);
+
+                                FragmentManager manager = getFragmentManager();
+                                manager.beginTransaction().replace(
+                                        R.id.content_main_for_fragment,
+                                        lista,
+                                        lista.getTag()
+                                ).commit();
+
                             }
                         },new Response.ErrorListener(){
 
@@ -166,8 +155,8 @@ public class ClientesFragment extends Fragment {
                                     Log.i("Error",""+error.toString());
                     }
                 });
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        requestQueue.add(jsonArrayRequest);
+            RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+            requestQueue.add(jsonArrayRequest);
         }
 
     }

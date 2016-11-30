@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +15,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.siserve.siserve.R;
 import com.app.siserve.siserve.adapter.Cliente;
 import com.app.siserve.siserve.util.SettingsHelper;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -124,76 +128,13 @@ public class ClientesFragment extends Fragment {
 
 
 
-            JsonObjectRequest req = new JsonObjectRequest(URL + "&nomeCli=" + nomeCliente + "&cpfCli=" + cpfCliente + "&codCli=" + codCliente+ "&codEmpresa="+codEmpresa, null,
+           /* JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET,URL + "&nomeCli=" + nomeCliente + "&cpfCli=" + cpfCliente + "&codCli=" + codCliente+ "&codEmpresa="+codEmpresa, null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) throws JSONException {
 
 
-                                final Cliente cliente = new Cliente();
-                                cliente.setNomeCliente(response.getString("nomecli"));
-                                cliente.setCpf(response.getString("cgccpf"));
-                                cliente.setTipoCli(response.getString("tpPessoa"));
-                                cliente.setEndereco(response.getString("endereco"));
-                                cliente.setTelefone(response.getString("telefone"));
-                                cliente.setCelular(response.getString("celular"));
-                                cliente.setEmail(response.getString("email"));
-                                cliente.setNomeFantasia(response.getString("fantasia"));
-
-
-
-                                AlertDialog.Builder mensagem = new AlertDialog.Builder(getContext());
-                                mensagem.setIcon(android.R.drawable.btn_star);
-                                mensagem.setTitle("Cliente Encontrado");
-                                mensagem.setMessage("O Cliente "+cliente.getNomeCliente()+" foi encontrado, deseja visualizar seus dados completos?");
-                                mensagem.setCancelable(false);
-                                mensagem.setNegativeButton("Pesquisar Novamente",null);
-                                mensagem.setPositiveButton("Sim",null);
-                                /*Envia dados para Activity*/
-
-                                mensagem.setPositiveButton("Sim",new DialogInterface.OnClickListener(){
-
-                                    @Override
-                                    public void onClick(DialogInterface dialog,int whitch){
-
-                                        DadosClienteFragment dadosClientesFragment = new DadosClienteFragment();
-
-                                        /*Passando dados do cliente*/
-                                        Bundle bundle = new Bundle();
-
-                                        bundle.putString("nomecli", cliente.getNomeCliente() );
-                                        bundle.putString("cgccpf", cliente.getCpf() );
-                                        bundle.putString("tpPessoa", cliente.getTipoCli() );
-                                        bundle.putString("endereco", cliente.getEndereco() );
-                                        bundle.putString("telefone", cliente.getTelefone() );
-                                        bundle.putString("celular", cliente.getCelular() );
-                                        bundle.putString("email", cliente.getEmail() );
-                                        bundle.putString("fantasia", cliente.getNomeFantasia() );
-
-                                        /*Fim passando dados do cliente*/
-
-                                        dadosClientesFragment.setArguments(bundle);
-
-                                        FragmentManager manager = getFragmentManager();
-                                        manager.beginTransaction().replace(
-                                                R.id.content_main_for_fragment,
-                                                dadosClientesFragment,
-                                                dadosClientesFragment.getTag()
-                                        ).commit();
-
-
-
-                                    }
-
-
-                                } );
-
-                                /*Fim envia dados para Activity*/
-                                mensagem.create();
-                                mensagem.show();
-
-                           // redireciona();
-
+                                Log.i("OKKKKKKKKKKKKKKKKKKKK",""+response.toString());
 
                         }
                     }, new Response.ErrorListener() {
@@ -201,12 +142,32 @@ public class ClientesFragment extends Fragment {
                 public void onErrorResponse(VolleyError error) {
 
                     Toast.makeText(getContext(), "Cliente não encontrado, verifique os dados inseridos!", Toast.LENGTH_LONG).show();
+                    Log.i("Error",""+error.toString());
                 }
             });
 
-            // add the request object to the queue to be executed
+
             RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-            requestQueue.add(req);
+            requestQueue.add(req);*/
+
+                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,URL + "&nomeCli=" + nomeCliente + "&cpfCli=" + cpfCliente + "&codCli=" + codCliente+ "&codEmpresa="+codEmpresa,(String)null,
+                        new Response.Listener<JSONArray>(){
+
+
+                            @Override
+                            public void onResponse(JSONArray response) throws JSONException {
+                                    Log.i("OKKKKK",""+response.toString());
+                            }
+                        },new Response.ErrorListener(){
+
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                                    Log.i("Error",""+error.toString());
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(jsonArrayRequest);
         }
 
     }

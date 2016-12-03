@@ -1,6 +1,7 @@
 package com.app.siserve.siserve.framents;
 
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +31,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static java.lang.Thread.sleep;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ClientesFragment#newInstance} factory method to
@@ -43,7 +46,7 @@ public class ClientesFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final String URL = "http://pronorteweb.com.br/webservice8be2dc0905a239101a41debb8ebe552a/rest/api.php?rquest=consultaClientes";
+    private static final String URL = "http://pronorteweb.com.br/webservice8be2dc0905a239101a41debb8ebe552a/rest/api.php?rquest=consultaNomeCliente";
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -108,11 +111,9 @@ public class ClientesFragment extends Fragment {
                 final String cpf  = cpfCliente.getText().toString().trim();
                 final String codigocli = codigoCliente.getText().toString().trim();
 
-                if("".equals(nome) && "".equals(empresa) && "".equals(cpf) && "".equals(codigocli) ){
-                    Toast.makeText(getContext(), "Todos os dados são obrigatórios para pesquisa!", Toast.LENGTH_LONG).show();
-                }else {
+
                     pesquisaCliente(nome, cpf, codigocli, empresa);
-                }
+
             }
         });
 
@@ -131,20 +132,59 @@ public class ClientesFragment extends Fragment {
 
                             @Override
                             public void onResponse(JSONArray response) throws JSONException {
-                                ListaClienteFragment lista = new ListaClienteFragment();
+                                final ListaClienteFragment lista = new ListaClienteFragment();
 
-                                Log.i("OKKKKK",""+response.toString(0));
-                                Bundle bundle = new Bundle();
 
-                                bundle.putString("lista", response.toString() );
-                                lista.setArguments(bundle);
+                                final Bundle bundle = new Bundle();
 
-                                FragmentManager manager = getFragmentManager();
-                                manager.beginTransaction().replace(
-                                        R.id.content_main_for_fragment,
-                                        lista,
-                                        lista.getTag()
-                                ).commit();
+                                bundle.putString("lista", response.toString());
+                                /*ITERARJSON*/
+                                /* String result = "";
+                                for(int i = 0; i < response.length();i++)  {
+                                      JSONObject person = (JSONObject)response.get(i);
+                                      result += person.getString("nomecli");
+
+                                }
+
+                                Toast.makeText(getContext(), result , Toast.LENGTH_LONG).show();*/
+
+                                /*FIM ITERAR JSON*/
+                                final ProgressDialog pDialog = new ProgressDialog(getActivity());
+                                pDialog.setMessage("Buscando Dados ...");
+                                pDialog.setIndeterminate(false);
+                                pDialog.setCancelable(true);
+                                pDialog.show();
+
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run()
+                                    {
+                                        lista.setArguments(bundle);
+
+                                        FragmentManager manager = getFragmentManager();
+                                        manager.beginTransaction().replace(
+                                                R.id.content_main_for_fragment,
+                                                lista,
+                                                lista.getTag()
+                                        ).commit();
+                                        try {
+                                            sleep(1000);
+                                            pDialog.dismiss();
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run()
+                                            {
+
+                                            }
+                                        });
+                                    }
+
+                                    private void runOnUiThread(Runnable runnable) {
+                                    }
+                                }).start();
 
                             }
                         },new Response.ErrorListener(){
@@ -152,7 +192,7 @@ public class ClientesFragment extends Fragment {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                                    Log.i("Error",""+error.toString());
+                        Toast.makeText(getContext(),"Não foi encontrado cliente com os dados informados!", Toast.LENGTH_LONG).show();
                     }
                 });
             RequestQueue requestQueue = Volley.newRequestQueue(getContext());

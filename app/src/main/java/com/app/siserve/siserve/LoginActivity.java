@@ -3,6 +3,7 @@ package com.app.siserve.siserve;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -103,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
         SettingsHelper logado = new SettingsHelper();
 
         /*Verifica se o usuário ja logou antes no app*/
-        if(logado.usuarioLogado(LoginActivity.this)) {
+       if(logado.usuarioLogado(LoginActivity.this)) {
 
             redireciona();
 
@@ -143,6 +144,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Parse JSON
 
                                  */
+
                                 String cod_usuario_cli = response.getString("cod_usuario_cli");
                                 String cod_usuario = response.getString("cod_usuario");
                                 String cod_empresa = response.getString("cod_empresa");
@@ -159,6 +161,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 // Toast.makeText(LoginActivity.this, response.toString(4), Toast.LENGTH_LONG).show();
                                 // Toast.makeText(LoginActivity.this, cod_usuario_cli, Toast.LENGTH_LONG).show();
+
 
                                 redireciona();
 
@@ -183,6 +186,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void redireciona(){
+
         Intent t = new Intent(LoginActivity.this,MainActivity.class);
         startActivity(t);
     }

@@ -1,10 +1,13 @@
 package com.app.siserve.siserve.framents;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +15,24 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.app.siserve.siserve.R;
 import com.app.siserve.siserve.adapter.Cliente;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import static java.lang.Thread.sleep;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +44,8 @@ public class DadosClienteFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String URL = "http://pronorteweb.com.br/webservice8be2dc0905a239101a41debb8ebe552a/rest/api.php?rquest=consultaDadosPorCliente";
+    final Cliente cliente = new Cliente();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -57,6 +78,8 @@ public class DadosClienteFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Dados completos");
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -69,7 +92,7 @@ public class DadosClienteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_dados_cliente, container, false);
+        final View view = inflater.inflate(R.layout.fragment_dados_cliente, container, false);
         //Recebendo Dados do Cliente
         final TextView nome;
         final TextView cgccpf;
@@ -82,15 +105,7 @@ public class DadosClienteFragment extends Fragment {
 
 
         Bundle bundle = this.getArguments();
-        final Cliente cliente = new Cliente();
-        cliente.setNomeCliente(bundle.getString("nomecli"));
-        cliente.setCpf(bundle.getString("cgccpf"));
-        cliente.setTipoCli(bundle.getString("tpPessoa"));
-        cliente.setEndereco(bundle.getString("endereco"));
-        cliente.setTelefone(bundle.getString("telefone"));
-        cliente.setCelular(bundle.getString("celular"));
-        cliente.setEmail(bundle.getString("email"));
-        cliente.setNomeFantasia(bundle.getString("fantasia"));
+
 
         nome     = (TextView) view.findViewById(R.id.nomeIDVIEW);
         cgccpf   = (TextView) view.findViewById(R.id.cpfIDVIEW);
@@ -101,18 +116,57 @@ public class DadosClienteFragment extends Fragment {
         email    = (TextView)view.findViewById(R.id.emailIDVIEW);
         fantasia = (TextView)view.findViewById(R.id.fantasiaIDVIEW);
 
-        nome.setText(cliente.getNomeCliente());
-        cgccpf.setText(cliente.getCpf());
-        tpPessoa.setText((cliente.getTipoCli()));
-        endereco.setText(cliente.getEndereco());
-        telefone.setText(cliente.getTelefone());
-        celular.setText(cliente.getCelular());
-        email.setText(cliente.getEmail());
-        fantasia.setText(cliente.getNomeFantasia());
 
+        
+        String clienteNome = bundle.getString("nomeCli").trim();
+        String query = null;
+        try {
+           query  = URLEncoder.encode(clienteNome, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,URL + "&nomeCli=" + query,(String)null,
+                new Response.Listener<JSONArray>(){
+
+
+                    @Override
+                    public void onResponse(JSONArray response) throws JSONException {
+
+
+                        for(int i = 0; i < response.length();i++)  {
+                            JSONObject person = (JSONObject)response.get(i);
+
+
+                            nome.setText(  (person.getString("nomecli") == "null" || "".equals(person.getString("nomecli")))?"Dados não cadastrados":person.getString("nomecli") );
+                            cgccpf.setText( (person.getString("cgccpf") == "null" || "".equals(person.getString("cgccpf")))?"Dados não cadastrados":person.getString("cgccpf"));
+                            tpPessoa.setText((person.getString("tpPessoa") == "null" || "".equals(person.getString("tpPessoa")))?"Dados não cadastrados":person.getString("tpPessoa"));
+                            endereco.setText((person.getString("endereco") == "null" || "".equals(person.getString("endereco")))?"Dados não cadastrados":person.getString("endereco"));
+                            telefone.setText((person.getString("telefone") == "null" || "".equals(person.getString("telefone")))?"Dados não cadastrados":person.getString("telefone"));
+                            celular.setText((person.getString("celular") == "null" || "".equals(person.getString("celular")))?"Dados não cadastrados":person.getString("celular"));
+                            email.setText((person.getString("email") == "null" || "".equals(person.getString("email")))?"Dados não cadastrados":person.getString("email"));
+                            fantasia.setText((person.getString("fantasia") == "null" || "".equals(person.getString("fantasia")))?"Dados não cadastrados":person.getString("fantasia"));
+
+
+                        }
+                    }
+                },new Response.ErrorListener(){
+
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(),"Não foi encontrado cliente com os dados informados!", Toast.LENGTH_LONG).show();
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(jsonArrayRequest);
 
 
         return view;
     }
 
+
 }
+
+
+

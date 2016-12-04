@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -168,7 +169,7 @@ public class ClientesFragment extends Fragment {
                                                 lista.getTag()
                                         ).commit();
                                         try {
-                                            sleep(1000);
+                                            sleep(500);
                                             pDialog.dismiss();
                                         } catch (InterruptedException e) {
                                             e.printStackTrace();
@@ -199,7 +200,12 @@ public class ClientesFragment extends Fragment {
             requestQueue.add(jsonArrayRequest);
         }
 
-    }
+
+
+
+
+
+}
 
 
 

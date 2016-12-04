@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,7 +88,7 @@ public class ListaClienteFragment extends Fragment {
 
 
 
-        Log.i("DADOS JSON",""+bundle.getString("lista"));
+        //Log.i("DADOS JSON",""+bundle.getString("lista"));
 
 
 
@@ -98,10 +99,11 @@ public class ListaClienteFragment extends Fragment {
             JSONArray data_array = new JSONArray(bundle.getString("lista"));
             String nome = "";
             ArrayList nomes = new ArrayList();
+            ArrayList c = new ArrayList();
             for (int i = 0 ; i < data_array.length() ; i++)
             {
                 JSONObject obj=new JSONObject(data_array.get(i).toString());
-                //Log.i("Dados Cliente",obj.getString("nomecli"));
+                Log.i("Dados Cliente",obj.getString("nomecli"));
                 nomes.add(obj.getString("nomecli"));
                //nome += obj.getString("nomecli");
 
@@ -128,7 +130,23 @@ public class ListaClienteFragment extends Fragment {
 
                     int codigoPosicao = position;
                     String valorClicado = lista.getItemAtPosition(codigoPosicao).toString();
-                    Toast.makeText(getContext(),valorClicado,Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(getContext(),valorClicado,Toast.LENGTH_SHORT).show();
+                    final DadosClienteFragment dadosCli = new DadosClienteFragment();
+                    final Bundle bundle = new Bundle();
+
+                    bundle.putString("nomeCli", valorClicado);
+
+                    dadosCli.setArguments(bundle);
+
+
+                    FragmentManager manager = getFragmentManager();
+                    manager.beginTransaction().replace(
+                            R.id.content_main_for_fragment,
+                            dadosCli,
+                            dadosCli.getTag()
+                    ).commit();
+
+
 
                 }
 

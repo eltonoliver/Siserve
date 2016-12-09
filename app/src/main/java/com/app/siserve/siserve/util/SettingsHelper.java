@@ -47,7 +47,7 @@ public class SettingsHelper {
             nome = settings.getString("nome", "");
 
 
-           splited = nome.split("\\s+"); /*split nome por espaço*/
+            splited = nome.split("\\s+"); /*split nome por espaço*/
 
         }
 

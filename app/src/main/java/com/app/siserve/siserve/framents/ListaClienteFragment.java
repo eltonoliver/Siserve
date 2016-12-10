@@ -24,6 +24,8 @@ import org.json.JSONStringer;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -96,22 +98,16 @@ public class ListaClienteFragment extends Fragment {
        // Toast.makeText(getContext(), result , Toast.LENGTH_LONG).show();
         /****************************************************************/
         try {
-            JSONArray data_array = new JSONArray(bundle.getString("lista"));
+            JSONArray data_array = new JSONArray( bundle.getString("lista"));
+
+
+            /*TESTE**/
+
+
+            /*FIM-TESTE*/
             String nome = "";
-            ArrayList nomes = new ArrayList();
+            ArrayList nomes = new ArrayList<String>();
             ArrayList c = new ArrayList();
-            for (int i = 0 ; i < data_array.length() ; i++)
-            {
-                JSONObject obj=new JSONObject(data_array.get(i).toString());
-                Log.i("Dados Cliente",obj.getString("nomecli"));
-                nomes.add(obj.getString("nomecli"));
-               //nome += obj.getString("nomecli");
-
-
-            }
-
-
-           /***************************************************************/
 
             ArrayAdapter<String> adaptador = new ArrayAdapter<String>(
                     getContext(),
@@ -122,7 +118,6 @@ public class ListaClienteFragment extends Fragment {
             );
 
             lista.setAdapter(adaptador);
-
             lista.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
                 @Override
@@ -130,7 +125,7 @@ public class ListaClienteFragment extends Fragment {
 
                     int codigoPosicao = position;
                     String valorClicado = lista.getItemAtPosition(codigoPosicao).toString();
-                  //  Toast.makeText(getContext(),valorClicado,Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(getContext(),valorClicado,Toast.LENGTH_SHORT).show();
                     final DadosClienteFragment dadosCli = new DadosClienteFragment();
                     final Bundle bundle = new Bundle();
 
@@ -151,6 +146,30 @@ public class ListaClienteFragment extends Fragment {
                 }
 
             });
+//            String t = data_array.getJSONObject(800).getString("nomecli");
+  //          Log.i("Dados",""+t.toString());
+
+            for (int i = 0 ; i < data_array.length() ; i++)
+            {
+
+               // JSONObject obj=new JSONObject(data_array.get(i).toString());
+                String obj= data_array.getJSONObject(i).getString("nomecli");
+               // Toast.makeText(getContext(),">>>"+i+obj.toString() , Toast.LENGTH_LONG).show();
+                nomes.add(obj.toString());
+               //
+               //nome += obj.getString("nomecli");
+
+
+            }
+
+
+
+
+           /***************************************************************/
+
+
+
+
 
         }catch(JSONException e){
             e.printStackTrace();

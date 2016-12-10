@@ -140,14 +140,16 @@ public class ClientesFragment extends Fragment {
 
                                 bundle.putString("lista", response.toString());
                                 /*ITERARJSON*/
-                                /*String result = "";
+                               /* Object nome = "";
+                                JSONObject n;
                                 for(int i = 0; i < response.length();i++)  {
-                                      JSONObject person = (JSONObject)response.get(i);
-                                      result += person.getString("nomecli");
+                                     n = (JSONObject)response.get(i);
+                                     nome += n.getString("nomecli");
 
                                 }
-                                */
-                                Toast.makeText(getContext(), response.toString() , Toast.LENGTH_LONG).show();
+
+
+                                Toast.makeText(getContext(), nome.toString() , Toast.LENGTH_LONG).show();*/
 
                                 /*FIM ITERAR JSON*/
                                 final ProgressDialog pDialog = new ProgressDialog(getActivity());

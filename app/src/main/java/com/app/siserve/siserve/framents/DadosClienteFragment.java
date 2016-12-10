@@ -10,8 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,9 +79,9 @@ public class DadosClienteFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Dados completos");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Dados completos");
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -91,6 +93,7 @@ public class DadosClienteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_dados_cliente, container, false);
         //Recebendo Dados do Cliente
@@ -107,55 +110,67 @@ public class DadosClienteFragment extends Fragment {
         Bundle bundle = this.getArguments();
 
 
-        nome     = (TextView) view.findViewById(R.id.nomeIDVIEW);
-        cgccpf   = (TextView) view.findViewById(R.id.cpfIDVIEW);
-        tpPessoa = (TextView)view.findViewById(R.id.tipoIDVIEW);
-        endereco = (TextView)view.findViewById(R.id.enderecoIDVIEW);
-        telefone = (TextView)view.findViewById(R.id.telefoneIDVIEW);
-        celular  = (TextView)view.findViewById(R.id.celularIDVIEW);
-        email    = (TextView)view.findViewById(R.id.emailIDVIEW);
-        fantasia = (TextView)view.findViewById(R.id.fantasiaIDVIEW);
+        nome = (TextView) view.findViewById(R.id.nomeIDVIEW);
+        cgccpf = (TextView) view.findViewById(R.id.cpfIDVIEW);
+        tpPessoa = (TextView) view.findViewById(R.id.tipoIDVIEW);
+        endereco = (TextView) view.findViewById(R.id.enderecoIDVIEW);
+        telefone = (TextView) view.findViewById(R.id.telefoneIDVIEW);
+        celular = (TextView) view.findViewById(R.id.celularIDVIEW);
+        email = (TextView) view.findViewById(R.id.emailIDVIEW);
+        fantasia = (TextView) view.findViewById(R.id.fantasiaIDVIEW);
+
+        ImageView btnVoltar = (ImageView)view.findViewById(R.id.backlistID);
+
+        /*Voltar para listagem*/
+        btnVoltar.setOnClickListener(new View.OnClickListener(){
 
 
-        
+            @Override
+            public void onClick(View view) {
+
+                 getFragmentManager().popBackStack();
+            }
+        });
+
+
         String clienteNome = bundle.getString("nomeCli").trim();
         String query = null;
         try {
-           query  = URLEncoder.encode(clienteNome, "utf-8");
+            query = URLEncoder.encode(clienteNome, "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,URL + "&nomeCli=" + query,(String)null,
-                new Response.Listener<JSONArray>(){
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL + "&nomeCli=" + query, (String) null,
+                new Response.Listener<JSONArray>() {
 
 
                     @Override
                     public void onResponse(JSONArray response) throws JSONException {
 
 
-                        for(int i = 0; i < response.length();i++)  {
-                            JSONObject person = (JSONObject)response.get(i);
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject person = (JSONObject) response.get(i);
 
 
-                            nome.setText(  (person.getString("nomecli") == "null" || "".equals(person.getString("nomecli")))?"Dados não cadastrados":person.getString("nomecli") );
-                            cgccpf.setText( (person.getString("cgccpf") == "null" || "".equals(person.getString("cgccpf")))?"Dados não cadastrados":person.getString("cgccpf"));
-                            tpPessoa.setText((person.getString("tpPessoa") == "null" || "".equals(person.getString("tpPessoa")))?"Dados não cadastrados":person.getString("tpPessoa"));
-                            endereco.setText((person.getString("endereco") == "null" || "".equals(person.getString("endereco")))?"Dados não cadastrados":person.getString("endereco"));
-                            telefone.setText((person.getString("telefone") == "null" || "".equals(person.getString("telefone")))?"Dados não cadastrados":person.getString("telefone"));
-                            celular.setText((person.getString("celular") == "null" || "".equals(person.getString("celular")))?"Dados não cadastrados":person.getString("celular"));
-                            email.setText((person.getString("email") == "null" || "".equals(person.getString("email")))?"Dados não cadastrados":person.getString("email"));
-                            fantasia.setText((person.getString("fantasia") == "null" || "".equals(person.getString("fantasia")))?"Dados não cadastrados":person.getString("fantasia"));
+                            nome.setText((person.getString("nomecli") == "null" || "".equals(person.getString("nomecli"))) ? "Dados não cadastrados" : person.getString("nomecli"));
+                            cgccpf.setText((person.getString("cgccpf") == "null" || "".equals(person.getString("cgccpf"))) ? "Dados não cadastrados" : person.getString("cgccpf"));
+                            tpPessoa.setText((person.getString("tpPessoa") == "null" || "".equals(person.getString("tpPessoa"))) ? "Dados não cadastrados" : person.getString("tpPessoa"));
+                            endereco.setText((person.getString("endereco") == "null" || "".equals(person.getString("endereco"))) ? "Dados não cadastrados" : person.getString("endereco"));
+                            telefone.setText((person.getString("telefone") == "null" || "".equals(person.getString("telefone"))) ? "Dados não cadastrados" : person.getString("telefone"));
+                            celular.setText((person.getString("celular") == "null" || "".equals(person.getString("celular"))) ? "Dados não cadastrados" : person.getString("celular"));
+                            email.setText((person.getString("email") == "null" || "".equals(person.getString("email"))) ? "Dados não cadastrados" : person.getString("email"));
+                            fantasia.setText((person.getString("fantasia") == "null" || "".equals(person.getString("fantasia"))) ? "Dados não cadastrados" : person.getString("fantasia"));
 
 
                         }
                     }
-                },new Response.ErrorListener(){
+                }, new Response.ErrorListener() {
 
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(),"Não foi encontrado cliente com os dados informados!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Não foi encontrado cliente com os dados informados!", Toast.LENGTH_LONG).show();
             }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
@@ -164,6 +179,7 @@ public class DadosClienteFragment extends Fragment {
 
         return view;
     }
+
 
 
 }

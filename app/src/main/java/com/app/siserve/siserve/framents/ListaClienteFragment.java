@@ -139,7 +139,7 @@ public class ListaClienteFragment extends Fragment {
                             R.id.content_main_for_fragment,
                             dadosCli,
                             dadosCli.getTag()
-                    ).commit();
+                    ).addToBackStack(null).commit();/*.addToBackStack(null)*/
 
 
 
